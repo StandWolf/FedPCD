@@ -1,0 +1,142 @@
+FedPCD: Prototype-Cross Distillation for Multimodal Federated Learning
+Copyright 2026 The FedPCD Authors
+Licensed under the Apache License, Version 2.0 (see LICENSE.md).
+
+--------------------------------------------------------------------------------
+Upstream work
+--------------------------------------------------------------------------------
+
+This repository is a derivative work of FedMultimodal:
+
+    FedMultimodal: A Benchmark for Multimodal Federated Learning
+    Tiantian Feng, Digbalay Bose, Tuo Zhang, Rajat Hebbar,
+    Anil Ramakrishna, Rahul Gupta, Mi Zhang,
+    Salman Avestimehr, Shrikanth Narayanan
+    Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery
+    and Data Mining (KDD 2023), pp. 4035-4045
+
+    Source:  https://github.com/usc-sail/fed-multimodal
+    License: Apache License, Version 2.0
+    Paper:   https://arxiv.org/pdf/2306.09486.pdf
+
+The upstream repository does not contain a NOTICE file. This NOTICE is
+provided by the FedPCD authors to document the origin of the derived code
+and the modifications made in this repository.
+
+Original author attributions present in the upstream source files
+(e.g., "Author: Tiantian Feng, USC SAIL lab" and "@author: Tiantian") have
+been retained.
+
+--------------------------------------------------------------------------------
+Files derived from FedMultimodal and modified for FedPCD
+--------------------------------------------------------------------------------
+
+The following files contain code from FedMultimodal and have been modified.
+Each such file carries a prominent notice at the top of the file.
+
+    constants/constants.py
+    dataloader/dataload_manager.py
+    model/common_fusions.py
+    model/mm_models.py
+    model/unimodal_models.py
+    trainers/evaluation.py
+    trainers/fed_avg_trainer.py
+    trainers/fed_rs_trainer.py
+    trainers/optimizer.py
+    trainers/scaffold_trainer.py
+    trainers/server_trainer.py
+    features/data_partitioning/partition_manager.py
+    features/data_partitioning/uci-har/data_partition.py
+    features/feature_processing/feature_manager.py
+    features/feature_processing/uci-har/extract_feature.py
+    features/feature_processing/ku-har/extract_feature.py
+    features/simulation_features/simulation_manager.py
+    features/simulation_features/uci-har/simulation_feature.py
+    experiment/uci-har/train.py
+    experiment/ku-har/train.py
+
+Summary of modifications to these files:
+
+    - Removed the "fed_multimodal." package prefix and switched to
+      repository-root imports so the code runs from a single checkout.
+    - Added the FedPCD training path: global knowledge distillation (GKD:
+      logit, feature, and cross-modal terms), cross-modal projection recovery
+      (CPR), and Prototype-Cross Alignment (PCA).
+    - Added client-level modality missingness: client-level mask loading,
+      deterministic fixed client-to-modality assignments, and clean
+      (complete-modality) dev/test evaluation.
+    - Added the per-client missing-rate computation for the distillation
+      schedule (Eq. 19): m_k = 0 for complete-modality clients and m_k = 1
+      for single-modality clients.
+    - Added the mHealth two-modality pipeline and the fixed Dirichlet client
+      partitions for mHealth (beta=0.1) and KU-HAR (beta=0.3). The partitions
+      are included as data because the original one-off generator is not part
+      of this release.
+    - Added the HAR experiment entry points used in the paper and the
+      evaluation under incomplete test inputs.
+    - Restricted the release to the three HAR datasets used in the paper;
+      unused datasets and experiment scripts were removed.
+
+--------------------------------------------------------------------------------
+Files new in FedPCD (not part of FedMultimodal)
+--------------------------------------------------------------------------------
+
+    utils/distillation_scheduler.py
+    utils/double_distillation.py
+    utils/leakfree_cross.py
+    utils/mfcpl_missing_simulator.py
+    utils/missing_rate.py
+    utils/prototype_manager.py
+    model/mfcpl_model.py
+    trainers/fedmekt_server.py
+    trainers/mfcpl_client_trainer.py
+    trainers/mfcpl_server_trainer.py
+    experiment/uci-har/train_mfcpl.py
+    experiment/uci-har/train_fedmekt.py
+    experiment/mhealth/train.py
+    experiment/mhealth/train_mfcpl.py
+    experiment/mhealth/train_fedmekt.py
+    experiment/ku-har/train_mfcpl.py
+    experiment/ku-har/train_fedmekt.py
+    features/feature_processing/mhealth/extract_feature.py
+    features/simulation_features/mhealth/generate_clientlevel_masks.py
+    features/simulation_features/ku-har/generate_clientlevel_masks.py
+    features/simulation_features/apply_fixed_masks_folds.py
+    features/simulation_features/uci-har/apply_fixed_masks.py
+    features/simulation_features/uci-har/make_clientlevel_files.py
+    features/simulation_features/uci-har/fixed_masks_alpha005.json
+    features/simulation_features/mhealth/fixed_masks.json
+    features/simulation_features/ku-har/fixed_masks.json
+    partitions/uci-har/partition_alpha005.json
+    partitions/mhealth/fold1/partition.json
+    partitions/mhealth/fold2/partition.json
+    partitions/mhealth/fold3/partition.json
+    partitions/mhealth/fold4/partition.json
+    partitions/mhealth/fold5/partition.json
+    partitions/ku-har/fold1/partition.json
+    partitions/ku-har/fold2/partition.json
+    partitions/ku-har/fold3/partition.json
+    partitions/ku-har/fold4/partition.json
+    partitions/ku-har/fold5/partition.json
+    scripts/download_data.sh
+    scripts/prepare_uci_har.sh
+    scripts/prepare_mhealth.sh
+    scripts/prepare_ku_har.sh
+    scripts/run_main.sh
+    scripts/run_ablation.sh
+    scripts/evaluate_incomplete_inputs.py
+    README.md
+    NOTICE
+    CITATION.cff
+    requirements.txt
+
+--------------------------------------------------------------------------------
+Datasets
+--------------------------------------------------------------------------------
+
+The raw datasets are not redistributed in this repository. UCI-HAR, mHealth,
+and KU-HAR are downloaded from their public sources by
+scripts/download_data.sh. The fixed Dirichlet client partitions generated
+from those datasets are included under partitions/ so that the reported
+splits can be reproduced exactly. Users are responsible for complying with
+the terms of use of each dataset.

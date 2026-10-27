@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the FedPCD paper and the FedMultimodal benchmark."
+title: "FedPCD: Prototype-Cross Distillation for Multimodal Federated Learning"
+abstract: >-
+  FedPCD is a multimodal federated learning method for client-level modality
+  missingness. It combines global knowledge distillation, cross-modal
+  projection recovery, and prototype-cross alignment without public or proxy
+  data.
+authors:
+  - name: "The FedPCD Authors"
+year: 2026
+license: Apache-2.0
+references:
+  - type: conference-paper
+    title: "FedMultimodal: A Benchmark for Multimodal Federated Learning"
+    authors:
+      - family-names: Feng
+        given-names: Tiantian
+      - family-names: Bose
+        given-names: Digbalay
+      - family-names: Zhang
+        given-names: Tuo
+      - family-names: Hebbar
+        given-names: Rajat
+      - family-names: Ramakrishna
+        given-names: Anil
+      - family-names: Gupta
+        given-names: Rahul
+      - family-names: Zhang
+        given-names: Mi
+      - family-names: Avestimehr
+        given-names: Salman
+      - family-names: Narayanan
+        given-names: Shrikanth
+    conference:
+      name: "Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and Data Mining"
+    year: 2023
+    url: "https://github.com/usc-sail/fed-multimodal"
